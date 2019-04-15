@@ -1,0 +1,115 @@
+﻿@model Sandeeptest.Models.User
+
+@{
+    ViewBag.Title = "User";
+}
+
+<h2>User</h2>
+
+@using (Html.BeginForm("CreateUser", "User"))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id);
+    <input type="hidden" name="previousemail" id="previousemail" value="@Model.Email" />
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @id = "firstnameid" } })
+                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @id = "lastnameid" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "emailid" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CountryName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.CountryName, new SelectList(Model.Countries, "CountryId", "CountryName"), new { @class = "form-control country", @id = "countryid" })
+                @Html.ValidationMessageFor(model => model.CountryName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CityName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.CityName, new SelectList(Model.Cities, "CityId", "CityName"), new { @class = "form-control myDropDownLisTId" })
+                @Html.ValidationMessageFor(model => model.CityName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @if (Model.Id > 0)
+                {
+                    <input type="submit" value="Update" class="btn btn-Primary" />
+                }
+                else
+                {
+                    <input type="submit" value="Create" class="btn btn-Primary" />
+                }
+
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    <script>
+
+        $(document).ready(
+            GetDropDownData()
+        );
+        $("#countryid").change(function () {
+
+            GetDropDownData()
+        });
+
+        function GetDropDownData() {
+            debugger;
+            var selectedCountry = $(".country option:selected").val();
+            $(".country")
+            $.ajax({
+                type: "POST",
+                url: "./GetCountryById" + '?' + $.param({ "countryId": selectedCountry }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    debugger;
+                    $.each(data, function () {
+                        $(".myDropDownLisTId").append($("<option />").val(this.CityId).text(this.CityName));
+                    });
+                },
+                failure: function () {
+                    debugger;
+                    alert("Failed!");
+                }
+            });
+        }
+    </script>
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+}
