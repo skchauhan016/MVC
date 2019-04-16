@@ -11,12 +11,13 @@ namespace Sandeeptest.Models
     public class User
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "FirstName is Requirde")]
         public string FirstName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "LastName is Requirde")]
         public string LastName { get; set; }
         [Required]
         [Remote("CheckEmailInDataBase", "User", AdditionalFields = "previousemail", HttpMethod = "POST", ErrorMessage = "Email is already exist")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
         public int CityId { get; set; }
         public int CountryId { get; set; }

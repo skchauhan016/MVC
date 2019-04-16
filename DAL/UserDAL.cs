@@ -56,9 +56,10 @@ namespace Sandeeptest.DAL
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-
-                SqlCommand check_User_Name = new SqlCommand("SELECT COUNT(*) FROM [Test_Sandeep] WHERE ([Email] = @user)", con);
+               
+                SqlCommand check_User_Name = new SqlCommand("SELECT COUNT(*) FROM [Test_Sandeep] WHERE ([Email] = @Email)", con);
                 check_User_Name.Parameters.AddWithValue("@Email", email);
+                con.Open();
                 int UserExist = (int)check_User_Name.ExecuteScalar();
 
                 if (UserExist > 0)

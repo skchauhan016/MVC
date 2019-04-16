@@ -47,13 +47,17 @@ namespace Sandeeptest.Controllers
 
         public async Task<JsonResult> CheckEmailInDataBase(string email, string previousemail)
         {
-            bool status = false;
+            bool status = true;
             try
             {
                 if (email != previousemail)
-                    return Json(false, JsonRequestBehavior.AllowGet); 
-                bool isExist = dal.CheckEmailInDataBase(email);
-                return Json(isExist, JsonRequestBehavior.AllowGet);
+                {
+                     status = dal.CheckEmailInDataBase(email);
+                    return Json(!status, JsonRequestBehavior.AllowGet);
+                }
+                
+                  
+                
 
 
             }

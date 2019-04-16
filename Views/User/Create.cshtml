@@ -60,11 +60,11 @@
             <div class="col-md-offset-2 col-md-10">
                 @if (Model.Id > 0)
                 {
-                    <input type="submit" value="Update" class="btn btn-Primary" />
+                    <input type="submit" value="Update" class="btn btn-Success" />
                 }
                 else
                 {
-                    <input type="submit" value="Create" class="btn btn-Primary" />
+                    <input type="submit" value="Create" class="btn btn-Success" />
                 }
 
             </div>
@@ -98,6 +98,7 @@
                 dataType: "json",
                 success: function (data) {
                     debugger;
+                    $(".myDropDownLisTId option").remove();
                     $.each(data, function () {
                         $(".myDropDownLisTId").append($("<option />").val(this.CityId).text(this.CityName));
                     });

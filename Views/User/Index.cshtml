@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>User List</h2>
+<h2>UserList</h2>
 
 
 <table class="table">
@@ -24,7 +24,9 @@
         <th>
             @Html.DisplayNameFor(model => model.CountryName)
         </th>
-        <th></th>
+        <th>
+            @Html.DisplayName("Action")
+        </th>
     </tr>
 
     @foreach (var item in Model)
