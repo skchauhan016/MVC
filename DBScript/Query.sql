@@ -110,9 +110,9 @@ GO
 CREATE PROC [dbo].[GET_USERS]
 AS
 BEGIN
-SELECT Id, FirstName,LastName,Email,c1.CityName,c2.CountryName FROM Test_Sandeep t1
-JOIN City c1 ON t1.CityId=c1.CityId
-JOIN Country c2 ON t1.CityId=c2.CountryId
+SELECT t1.Id, t1.FirstName,t1.LastName,t1.Email,c1.CityName,c2.CountryName FROM Test_Sandeep t1
+JOIN City c1 ON c1.CityId=t1.CityId
+JOIN Country c2 ON c2.CountryId=t1.CountryId
 END
 GO
 
